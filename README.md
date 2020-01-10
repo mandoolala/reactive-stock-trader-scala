@@ -1,6 +1,6 @@
 # Reactive Stock Trader
 
-My own implementation of reactive stock trader system in Scala.
+My implementation of Reactive Stock Trader system in Scala.
 
 * Scala
 * Lagom
