@@ -12,7 +12,7 @@ lazy val `reactive-stock-trader-scala` = (project in file("."))
     `portfolio-api`, `portfolio-impl`,
     `broker-api`, `broker-impl`,
     `wiretransfer-api`, `wiretransfer-impl`,
-    `bff`
+    `gateway`
   )
 
 lazy val `common-models` = (project in file("common-models"))
@@ -93,7 +93,7 @@ lazy val `wiretransfer-impl` = (project in file("wiretransfer-impl"))
   .settings(lagomForkedTestSettings)
   .dependsOn(`wiretransfer-api`)
 
-lazy val `bff` = (project in file("bff"))
+lazy val `gateway` = (project in file("gateway"))
   .enablePlugins(PlayScala, LagomPlay)
   .disablePlugins(PlayLayoutPlugin)
   .dependsOn(
