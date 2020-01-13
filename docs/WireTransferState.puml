@@ -1,0 +1,21 @@
+@startuml
+!pragma teoz true
+
+[*] --> TransferInitiated : TransferFunds
+note left of TransferInitiated
+  Request funds from source account
+end note
+TransferInitiated --> CouldNotSecureFunds : RequestFailed
+TransferInitiated --> FundsRetrieved : RequestSucceeded
+note left of FundsRetrieved
+  Send funds to destination
+end note
+FundsRetrieved --> DeliveryConfirmed : DeliverySuccessful
+FundsRetrieved --> DeliveryFailed : DeliveryFailed
+note left of DeliveryFailed
+  Send refund to source
+end note
+DeliveryFailed --> DeliveryFailed : RefundFailed
+DeliveryFailed --> RefundDelivered : RefundSucceeded
+
+@enduml

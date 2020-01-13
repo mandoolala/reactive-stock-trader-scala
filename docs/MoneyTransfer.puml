@@ -1,0 +1,15 @@
+@startuml
+!pragma teoz true
+skinparam SequenceMessageAlign direction
+title Wire transfer
+entity A
+entity WireTransfer
+entity B
+[-> WireTransfer: TransferFunds \n $X A->B
+create A
+WireTransfer -> A: FundsRequested
+A -> WireTransfer: FundsSent
+WireTransfer -> B: FundsSent
+B -> WireTransfer: FundsAccepted
+@enduml
+
