@@ -1,4 +1,4 @@
-package stocktrader.wiretransfer.impl
+package stocktrader.wiretransfer.impl.transfer
 
 import com.lightbend.lagom.scaladsl.persistence.{AggregateEvent, AggregateEventTag, AggregateEventTagger}
 import julienrf.json.derived

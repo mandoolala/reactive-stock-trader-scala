@@ -1,13 +1,12 @@
-package stocktrader.wiretransfer.impl
+package stocktrader.wiretransfer.impl.transfer
 
 import akka.stream.Attributes
 import akka.stream.scaladsl.Flow
 import akka.{Done, NotUsed}
 import com.lightbend.lagom.scaladsl.persistence.{AggregateEventTag, EventStreamElement, ReadSideProcessor}
-import stocktrader.portfolio.api.FundsTransfer.{Deposit, Refund, Withdrawal}
-import stocktrader.portfolio.api.PortfolioService
+import stocktrader.portfolio.api.{Deposit, PortfolioService, Refund, Withdrawal}
 import stocktrader.wiretransfer.api.Account
-import stocktrader.wiretransfer.impl.TransferEvent._
+import stocktrader.wiretransfer.impl.transfer.TransferEvent._
 
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success}

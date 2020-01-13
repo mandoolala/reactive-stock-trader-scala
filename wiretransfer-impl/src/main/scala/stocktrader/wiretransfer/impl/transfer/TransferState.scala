@@ -1,13 +1,11 @@
-package stocktrader.wiretransfer.impl
+package stocktrader.wiretransfer.impl.transfer
 
 import stocktrader.JsonFormats
-import stocktrader.wiretransfer.impl.TransferState.Status.Status
+import stocktrader.wiretransfer.impl.transfer.TransferState.Status.Status
 
 case class TransferState(transferDetails: TransferDetails, status: Status)
 
 object TransferState {
-
-  def from(transferDetails: TransferDetails): TransferState = TransferState(transferDetails, Status.FundsRequested)
 
   object Status extends Enumeration {
 

@@ -30,7 +30,6 @@ trait PortfolioService extends Service {
         restCall(Method.GET, "/api/portfolio", getAllPortfolios _),
         restCall(Method.POST, "/api/portfolio/:portfolioId/placeOrder", placeOrder _),
         restCall(Method.POST, "/api/portfolio/:portfolio/processTransfer", processTransfer _)
-
       )
       .withTopics(
       topic(OrderPlacedTopicId, orderPlaced _)

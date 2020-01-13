@@ -1,4 +1,4 @@
-package stocktrader.wiretransfer.impl
+package stocktrader.wiretransfer.impl.transfer
 
 import play.api.libs.json.{Format, Json}
 import stocktrader.wiretransfer.api.Account

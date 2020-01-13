@@ -1,4 +1,4 @@
-package stocktrader.wiretransfer.impl
+package stocktrader.wiretransfer.impl.transfer
 
 import java.sql.Timestamp
 
