@@ -5,11 +5,12 @@ bin
 .cache
 .cache-main
 .cache-tests
-.classpath
-.project
+/.classpath
+/.project
 .tmpBin
 .factorypath
-.settings
+/.settings
 logs
-.idea
+/.idea
+/.idea_modules
 *.iml
