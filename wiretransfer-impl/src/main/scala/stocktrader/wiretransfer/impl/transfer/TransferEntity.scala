@@ -6,12 +6,11 @@ import java.util.Date
 import akka.Done
 import com.lightbend.lagom.scaladsl.persistence.PersistentEntity
 import com.lightbend.lagom.scaladsl.pubsub.{PubSubRef, PubSubRegistry, TopicId}
-
 import org.slf4j.{Logger, LoggerFactory}
-
 import stocktrader.TransferId
 import stocktrader.wiretransfer.api.{Account, TransferCompleted}
 import stocktrader.wiretransfer.impl.TransferState.Status
+import stocktrader.wiretransfer.impl.transfer.TransferState
 
 class TransferEntity(pubSubRegistry: PubSubRegistry) extends PersistentEntity {
 
@@ -50,7 +49,7 @@ class TransferEntity(pubSubRegistry: PubSubRegistry) extends PersistentEntity {
     }
     .onEvent {
       case (event: TransferEvent.TransferInitiated, None) =>
-        Some(TransferState(event.transferDetails, Status.FundsRequested))
+        Some(transfer.TransferState(event.transferDetails, Status.FundsRequested))
     }
 
   private val fundsRequested = Actions()
