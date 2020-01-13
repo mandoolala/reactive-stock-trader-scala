@@ -1,6 +1,5 @@
 package stocktrader.wiretransfer.impl
 
-import play.api.libs.json.Format
 import stocktrader.JsonFormats
 import stocktrader.wiretransfer.impl.TransferState.Status.Status
 
@@ -15,8 +14,7 @@ object TransferState {
     val FundsRequested, UnableToSecureFunds, FundsSent, DeliveryConfirmed, RefundSent, RefundDelivered = Value
 
     type Status = Value
-
-    implicit val format: Format[TransferState.Status.Value] = JsonFormats.enumFormat(Status)
+    implicit val format = JsonFormats.enumFormat(Status)
 
   }
 
