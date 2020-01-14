@@ -64,7 +64,6 @@ class WireTransferController(cc: ControllerComponents,
         log.error(accountType.toString)
         throw new IllegalStateException()
     }
-    ???
   }
 
 }
