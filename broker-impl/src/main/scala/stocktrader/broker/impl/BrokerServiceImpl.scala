@@ -6,9 +6,10 @@ import akka.{Done, NotUsed}
 import com.lightbend.lagom.scaladsl.api.ServiceCall
 import com.lightbend.lagom.scaladsl.api.broker.Topic
 import com.lightbend.lagom.scaladsl.api.transport.NotFound
+import com.lightbend.lagom.scaladsl.broker.TopicProducer
 import stocktrader.OrderId
 import stocktrader.broker.api.{BrokerService, OrderResult, OrderSummary, Quote}
-import stocktrader.broker.impl.order.OrderRepository
+import stocktrader.broker.impl.order.{OrderEvent, OrderRepository}
 import stocktrader.broker.impl.quote.QuoteService
 import stocktrader.portfolio.api.{OrderPlaced, PortfolioService}
 
@@ -18,8 +19,6 @@ class BrokerServiceImpl(quoteService: QuoteService,
                         portfolioService: PortfolioService,
                         orderRepository: OrderRepository)(implicit ec: ExecutionContext)
   extends BrokerService {
-
-  ??? // TODO: Register OrderEntity
 
   portfolioService.orderPlaced().subscribe.atLeastOnce(processPortfolioOrders())
 
@@ -35,7 +34,11 @@ class BrokerServiceImpl(quoteService: QuoteService,
       }
   }
 
-  override def orderResult(): Topic[OrderResult] = ???
+  override def orderResult(): Topic[OrderResult] = {
+    TopicProducer.taggedStreamWithOffset(OrderEvent.Tag.allTags.toList) { (tag, offset) =>
+      orderRepository.orderResults(tag, offset)
+    }
+  }
 
   private def processPortfolioOrders(): Flow[OrderPlaced, Done, _] = {
     Flow[OrderPlaced]
