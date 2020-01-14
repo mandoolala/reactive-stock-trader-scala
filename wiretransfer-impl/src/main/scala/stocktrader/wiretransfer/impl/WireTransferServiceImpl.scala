@@ -1,14 +1,16 @@
 package stocktrader.wiretransfer.impl
 
 import akka.NotUsed
-import akka.persistence.cassandra.session.scaladsl.CassandraSession
 import akka.persistence.query.Offset
 import akka.stream.scaladsl.Source
+
 import com.lightbend.lagom.scaladsl.api.ServiceCall
 import com.lightbend.lagom.scaladsl.api.broker.Topic
 import com.lightbend.lagom.scaladsl.broker.TopicProducer
+import com.lightbend.lagom.scaladsl.persistence.cassandra.CassandraSession
 import com.lightbend.lagom.scaladsl.persistence.{AggregateEventTag, EventStreamElement}
 import com.lightbend.lagom.scaladsl.pubsub.PubSubRegistry
+
 import stocktrader.wiretransfer.api.{TransactionSummary, Transfer, TransferRequest, WireTransferService}
 import stocktrader.wiretransfer.impl.transfer.{TransferCommand, TransferEvent, TransferRepository}
 import stocktrader.{PortfolioId, TransferId}
@@ -18,9 +20,6 @@ import scala.concurrent.ExecutionContext
 class WireTransferServiceImpl(transferRepository: TransferRepository,
                               db: CassandraSession,
                               pubSub: PubSubRegistry)(implicit val ex: ExecutionContext) extends WireTransferService {
-
-  //TODO: Register TransferProcess
-  //TODO: Register TransferEventProcessor
 
   override def transferFunds(): ServiceCall[Transfer, TransferId] = { transfer =>
     val transferId = TransferId.newId
@@ -44,8 +43,8 @@ class WireTransferServiceImpl(transferRepository: TransferRepository,
   private def transferRequestSource(tag: AggregateEventTag[TransferEvent], offset: Offset): Source[(TransferRequest, Offset), _] = {
     transferRepository.eventStream(tag, offset)
       .collect {
-        case EventStreamElement(_, evt: TransferEvent.TransferInitiated, _) => (requestFunds(evt), offset)
-        case EventStreamElement(_, evt: TransferEvent.FundsRetrieved, _) => (sendFunds(evt), offset)
+        case EventStreamElement(_, event: TransferEvent.TransferInitiated, _) => (requestFunds(event), offset)
+        case EventStreamElement(_, event: TransferEvent.FundsRetrieved, _) => (sendFunds(event), offset)
       }
   }
 

@@ -8,8 +8,6 @@ import stocktrader.TransferId
 
 class TransferRepositoryImpl(entityRegistry: PersistentEntityRegistry) extends TransferRepository {
 
-  // TODO: Register TransferEntity
-
   override def get(transferId: TransferId): PersistentEntityRef[TransferCommand] = {
     entityRegistry.refFor[TransferEntity](transferId)
   }
