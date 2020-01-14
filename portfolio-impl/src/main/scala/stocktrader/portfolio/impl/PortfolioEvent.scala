@@ -1,8 +1,11 @@
 package stocktrader.portfolio.impl
 
 import com.lightbend.lagom.scaladsl.persistence.{AggregateEvent, AggregateEventTag, AggregateEventTagger}
+
 import julienrf.json.derived
 import play.api.libs.json._
+
+import stocktrader.portfolio.api
 import stocktrader.portfolio.api.order.OrderDetails
 import stocktrader.{OrderId, PortfolioId, TransferId}
 
@@ -33,7 +36,7 @@ object PortfolioEvent {
   case class RefundAccepted(portfolioId: PortfolioId, transferId: TransferId, amount: BigDecimal) extends PortfolioEvent
 
   case class OrderPlaced(orderId: OrderId, portfolioId: PortfolioId, orderDetails: OrderDetails) extends PortfolioEvent {
-    def asDomainEvent(): OrderPlaced = OrderPlaced(orderId, portfolioId, orderDetails)
+    def asDomainEvent(): api.OrderPlaced = api.OrderPlaced(orderId, portfolioId, orderDetails)
   }
   case class OrderFulfilled(portfolioId: PortfolioId, orderId: OrderId) extends PortfolioEvent
   case class OrderFailed(portfolioId: PortfolioId, orderId: OrderId) extends PortfolioEvent
