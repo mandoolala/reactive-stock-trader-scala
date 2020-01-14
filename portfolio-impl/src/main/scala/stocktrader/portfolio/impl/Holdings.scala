@@ -1,5 +1,8 @@
 package stocktrader.portfolio.impl
 
+import play.api.libs.json.Json
+import stocktrader.portfolio.api.Holding
+
 case class Holdings(holdings: Map[String, Int]){
   def add(symbol: String, newShares: Int): Holdings = {
     val currentShares = holdings.getOrElse(symbol, 0)
@@ -18,10 +21,16 @@ case class Holdings(holdings: Map[String, Int]){
     else Holdings(holdings - symbol)
   }
 
+  def asSequence: Seq[Holding] = holdings.toList.map {
+    case(symbol, shareCount) => Holding(symbol, shareCount)
+  }
+
   def getShareCount(symbol: String): Int = holdings.getOrElse(symbol, 0)
 
 }
 
 object Holdings {
   def empty = Holdings(Map.empty)
+
+  implicit val format = Json.format[Holdings]
 }

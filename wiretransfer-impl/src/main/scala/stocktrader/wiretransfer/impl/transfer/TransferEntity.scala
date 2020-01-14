@@ -148,11 +148,6 @@ class TransferEntity(pubSubRegistry: PubSubRegistry) extends PersistentEntity {
     done(context)
   }
 
-  private def unhandled(command: TransferCommand, context: CommandContext[Done], state: Option[TransferState]) = {
-    log.warn(s"Unhandled command $command when state is $state")
-    done(context)
-  }
-
   private def buildTransferCompleted(details: TransferDetails, status: String): TransferCompleted = {
     val dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
     val date = new Date
