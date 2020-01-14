@@ -2,9 +2,9 @@
 
 My implementation of Reactive Stock Trader system (Portfolio, Broker, Wire Transfers Services) in Scala.
 
-Tools - Lagom (Play, Akka, Cassandra and Kafka), Play (for BFF), Vue.js (for UI), Kubernetes  
+Tools - Lagom (Play, Akka, Cassandra and Kafka), Vue.js (for UI), Kubernetes  
 Patterns - Event Sourcing, CQRS  
-Architecture - Interface, BFF (Backend for Frontend), services  
+Architecture - Interface, gateway, services  
 Integration - Point to Point, streaming, pub/sub  
 
 I learned and followed the tutorial below published on IBM Developer:
@@ -58,7 +58,7 @@ Running Lagom in development mode is simple. Start by launching the backend serv
 
 - `sbt runAll`
 
-The BFF exposes an API to the frontend on port 9100.
+The Gateway exposes an API to the frontend on port 9100.
 
 ## Deploying to Kubernetes
 

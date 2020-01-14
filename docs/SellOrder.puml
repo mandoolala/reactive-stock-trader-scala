@@ -3,7 +3,7 @@
 skinparam SequenceMessageAlign direction
 title Sell order flow
 actor Browser <<User>> order 1
-participant BFF order 2
+participant Gateway order 2
 entity Portfolio <<PersistentEntity>> order 3
 collections OrderPlaced  <<Topic>> order 4
 collections OrderResult <<Topic>> order 5
@@ -16,31 +16,31 @@ box "Broker Service"
   participant Broker
   participant OrderResult
 end box
-Browser -> BFF: sell shares
-activate BFF
-BFF -> Portfolio: placeOrder
+Browser -> Gateway: sell shares
+activate Gateway
+Gateway -> Portfolio: placeOrder
 activate Portfolio
 Portfolio --> Portfolio : confirm and\nremove shares
 Portfolio -> OrderPlaced: OrderPlaced
-& Portfolio -> BFF: <OrderId>
+& Portfolio -> Gateway: <OrderId>
 deactivate Portfolio
 activate OrderPlaced #blue
 OrderPlaced -[#blue]->> Broker: OrderPlaced
 activate Broker
 deactivate OrderPlaced
-BFF -> Browser: OK
-deactivate BFF
+Gateway -> Browser: OK
+deactivate Gateway
 Broker --> Broker: Find buyer
 Broker -> OrderResult: Fulfilled
 activate OrderResult #blue
 deactivate Broker
 OrderResult -[#blue]->> Portfolio: Fulfilled
-& OrderResult -[#blue]->> BFF: Fulfilled
-activate BFF
+& OrderResult -[#blue]->> Gateway: Fulfilled
+activate Gateway
 activate Portfolio
 deactivate OrderResult
-BFF -> Browser: order update
+Gateway -> Browser: order update
 & Portfolio --> Portfolio: Credit funds
 deactivate Portfolio
-deactivate BFF
+deactivate Gateway
 @enduml

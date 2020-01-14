@@ -2,16 +2,16 @@
 !pragma teoz true
 skinparam SequenceMessageAlign direction
 title Open Portfolio
-participant BFF
+participant Gateway
 entity Portfolio
-[-> BFF : open portfolio
-activate BFF
-BFF -> Portfolio: openPortfolio
+[-> Gateway : open portfolio
+activate Gateway
+Gateway -> Portfolio: openPortfolio
 activate Portfolio
 Portfolio --> Portfolio : allocate ID\nand store\ndetails
-Portfolio -> BFF : <PortfolioId>
+Portfolio -> Gateway : <PortfolioId>
 deactivate Portfolio
-[<- BFF  : <PortfolioId>
-deactivate BFF
+[<- Gateway  : <PortfolioId>
+deactivate Gateway
 @enduml
 
