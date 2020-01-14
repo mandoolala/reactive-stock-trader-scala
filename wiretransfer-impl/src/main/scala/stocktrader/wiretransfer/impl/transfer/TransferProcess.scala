@@ -4,7 +4,9 @@ import akka.stream.Attributes
 import akka.stream.scaladsl.Flow
 import akka.{Done, NotUsed}
 import com.lightbend.lagom.scaladsl.persistence.{AggregateEventTag, EventStreamElement, ReadSideProcessor}
-import stocktrader.portfolio.api.{Deposit, PortfolioService, Refund, Withdrawal}
+import stocktrader.portfolio.api.PortfolioService
+import stocktrader.portfolio.api.FundsTransfer.{Deposit, Refund, Withdrawal}
+
 import stocktrader.wiretransfer.api.Account
 import stocktrader.wiretransfer.impl.transfer.TransferEvent._
 
@@ -32,12 +34,12 @@ class TransferProcess(portfolioService: PortfolioService, transferRepository: Tr
         )
         .mapAsyncUnordered(ConcurrentSteps) { e =>
           e.event match {
-            case evt: TransferInitiated => handleTransferInitiated(evt)
-            case evt: CouldNotSecureFunds => handleCouldNotSecureFunds(evt)
-            case evt: FundsRetrieved => handleFundsRetrieved(evt)
-            case evt: DeliveryFailed => handleDeliveryFailed(evt)
-            case evt: DeliveryConfirmed => handleDeliveryConfirmed(evt)
-            case evt: RefundDelivered => handleRefundDelivered(evt)
+            case event: TransferInitiated => handleTransferInitiated(event)
+            case event: CouldNotSecureFunds => handleCouldNotSecureFunds(event)
+            case event: FundsRetrieved => handleFundsRetrieved(event)
+            case event: DeliveryFailed => handleDeliveryFailed(event)
+            case event: DeliveryConfirmed => handleDeliveryConfirmed(event)
+            case event: RefundDelivered => handleRefundDelivered(event)
           }
         }
     }
@@ -105,12 +107,12 @@ class TransferProcess(portfolioService: PortfolioService, transferRepository: Tr
   }
 
   private def handleDeliveryConfirmed(event: DeliveryConfirmed): Future[Done] = {
-    // Saga is completed successfully
+    //completed successfully
     Future.successful(Done)
   }
 
   private def handleRefundDelivered(event: RefundDelivered): Future[Done] = {
-    // Saga is complete after refunding source
+    //is complete after refunding source
     Future.successful(Done)
   }
 

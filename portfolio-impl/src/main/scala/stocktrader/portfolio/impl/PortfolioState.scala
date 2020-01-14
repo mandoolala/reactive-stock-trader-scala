@@ -1,7 +1,7 @@
 package stocktrader.portfolio.impl
 
-import julienrf.json.derived
-import play.api.libs.json._
+import com.lightbend.lagom.scaladsl.playjson.JsonSerializer
+import play.api.libs.json.Json
 
 import stocktrader.OrderId
 import stocktrader.portfolio.api.LoyaltyLevel
@@ -11,7 +11,11 @@ sealed trait PortfolioState
 
 object PortfolioState {
 
-  case object Closed extends PortfolioState
+  case object Closed extends PortfolioState {
+    implicit val format = JsonSerializer.emptySingletonFormat(Closed)
+    //implicit val format: Format[PortfolioState] = derived.flat.oformat((__ \ "type").format[String])
+
+  }
 
   case class Open(funds: BigDecimal,
                   name: String,
@@ -32,7 +36,6 @@ object PortfolioState {
       activeOrders = this.activeOrders - orderId,
       completedOrders = this.completedOrders + orderId
     )
-
   }
 
   object Open {
@@ -44,6 +47,7 @@ object PortfolioState {
       activeOrders = Map.empty,
       completedOrders = Set.empty
     )
+    implicit val format = Json.format[Open]
   }
-  //implicit val format: Format[PortfolioState] = derived.flat.oformat((__ \ "type").format[String])
+
 }

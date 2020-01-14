@@ -32,16 +32,24 @@ class TransferEventProcessor(session: CassandraSession, readSide: CassandraReadS
       .build()
   }
 
-  //TODO: create table if not exists - replace string
   //transfer_summary (transferId, status, dateTime, source, destination, amount)
   private def prepareCreateTables(): Future[Done] = session.executeCreateTable(
-    "string".stripMargin
+    """CREATE TABLE IF NOT EXISTS transfer_summary (
+      |transferId text,
+      |status text,
+      |dateTime text,
+      |source text,
+      |destination text,
+      |amount text,
+      |PRIMARY KEY (transferId))
+      |""".stripMargin
   )
 
-  //TODO: Insert into transfer_summary - replace string
-  //transfer_summary (transferId, status, dateTime, source, destination, amount)
   private def prepareWriteTransfers(): Future[Done] = {
-    val f = session.prepare("string".stripMargin)
+    val f = session.prepare(
+      """INSERT INTO transfer_summary (transferId, status, dateTime, source, destination, amount)
+        |VALUES (?, ?, ?, ?, ?, ?)
+        |""".stripMargin)
     writeTransfersPromise.completeWith(f)
     f.map(_ => Done)
   }

@@ -96,13 +96,11 @@ class OrderEntity extends PersistentEntity {
     .orElse(common)
 
   private val fulfilled = common
-
   private val failed = common
 
   // ********* Helpers ********* \\
 
   private def getOrderId: OrderId = OrderId(entityId)
-
   private def getOrder(state: OrderState): Order = Order(getOrderId, state.portfolioId, state.orderDetails)
 
 }

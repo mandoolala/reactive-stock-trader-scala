@@ -30,7 +30,7 @@ paths:
                   description: Human readable name of the portfolio for searching (not unique)
       responses:
         201:
-          description: Portfolio creatd successfully
+          description: Portfolio created successfully
           content:
             application/json:
               schema:

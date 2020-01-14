@@ -1,6 +1,6 @@
 package stocktrader.wiretransfer.api
 
-import play.api.libs.json.{Format, Json}
+import play.api.libs.json.Json
 
 case class TransferCompleted(id: String,
                              status: String,
@@ -12,5 +12,5 @@ case class TransferCompleted(id: String,
                              amount: String)
 
 object TransferCompleted {
-  implicit val format: Format[TransferCompleted] = Json.format[TransferCompleted]
+  implicit val format = Json.format[TransferCompleted]
 }

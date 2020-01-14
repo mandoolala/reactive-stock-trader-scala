@@ -1,6 +1,6 @@
 package stocktrader.broker.api
 
-import play.api.libs.json.{Format, Json}
+import play.api.libs.json.{Json, Format}
 import stocktrader.TradeType._
 
 case class Trade(symbol: String,

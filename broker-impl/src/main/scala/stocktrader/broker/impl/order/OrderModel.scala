@@ -9,8 +9,8 @@ import scala.concurrent.Future
 
 trait OrderModel {
 
-  def getStatus: Option[OrderStatus]
   def placeOrder(portfolioId: PortfolioId, orderDetails: OrderDetails): Future[Done]
+  def getStatus: Option[OrderStatus]
   def getSummary: Future[Option[OrderSummary]]
 
 }

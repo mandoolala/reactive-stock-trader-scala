@@ -2,12 +2,14 @@ package stocktrader.portfolio.impl
 
 import akka.stream.scaladsl.Flow
 import akka.{Done, NotUsed}
+
 import com.lightbend.lagom.scaladsl.api.ServiceCall
 import com.lightbend.lagom.scaladsl.api.broker.Topic
 import com.lightbend.lagom.scaladsl.broker.TopicProducer
-
 import com.lightbend.lagom.scaladsl.persistence.cassandra.CassandraSession
+
 import org.slf4j.{Logger, LoggerFactory}
+
 import stocktrader.broker.api.{BrokerService, OrderResult}
 import stocktrader.portfolio.api._
 import stocktrader.portfolio.api.order.OrderDetails
@@ -43,13 +45,6 @@ class PortfolioServiceImpl(portfolioRepository: PortfolioRepository,
       }
     }
 
-  override def placeOrder(portfolioId: PortfolioId): ServiceCall[OrderDetails, OrderId] = { orderDetails =>
-    val orderId = OrderId.newId
-    portfolioRepository.get(portfolioId)
-      .placeOrder(orderId, orderDetails)
-      .map(_ => orderId)
-  }
-
   override def processTransfer(portfolioId: PortfolioId): ServiceCall[FundsTransfer, Done] = { fundsTransfer =>
     val portfolioRef = portfolioRepository.getRef(portfolioId)
     fundsTransfer match {
@@ -57,6 +52,13 @@ class PortfolioServiceImpl(portfolioRepository: PortfolioRepository,
       case withdrawal: FundsTransfer.Withdrawal => portfolioRef.ask(PortfolioCommand.SendFunds(withdrawal.funds))
       case refund: FundsTransfer.Refund => portfolioRef.ask(PortfolioCommand.AcceptRefund(refund.funds, refund.transferId))
     }
+  }
+
+  override def placeOrder(portfolioId: PortfolioId): ServiceCall[OrderDetails, OrderId] = { orderDetails =>
+    val orderId = OrderId.newId
+    portfolioRepository.get(portfolioId)
+      .placeOrder(orderId, orderDetails)
+      .map(_ => orderId)
   }
 
   override def orderPlaced(): Topic[OrderPlaced] = {

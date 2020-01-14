@@ -15,4 +15,5 @@ object TransferRequest {
 
   implicit val format: Format[TransferRequest] = derived.flat.oformat((__ \ "type").format[String])
 
+
 }

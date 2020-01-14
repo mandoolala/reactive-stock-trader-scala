@@ -9,13 +9,13 @@ import com.lightbend.lagom.scaladsl.api.broker.Topic
 import com.lightbend.lagom.scaladsl.broker.TopicProducer
 import com.lightbend.lagom.scaladsl.persistence.cassandra.CassandraSession
 import com.lightbend.lagom.scaladsl.persistence.{AggregateEventTag, EventStreamElement}
-import com.lightbend.lagom.scaladsl.pubsub.PubSubRegistry
+import com.lightbend.lagom.scaladsl.pubsub.{PubSubRegistry, TopicId}
 
 import stocktrader.wiretransfer.api.{TransactionSummary, Transfer, TransferRequest, WireTransferService}
 import stocktrader.wiretransfer.impl.transfer.{TransferCommand, TransferEvent, TransferRepository}
 import stocktrader.{PortfolioId, TransferId}
 
-import scala.concurrent.ExecutionContext
+import scala.concurrent.{ExecutionContext, Future}
 
 class WireTransferServiceImpl(transferRepository: TransferRepository,
                               db: CassandraSession,
@@ -34,11 +34,25 @@ class WireTransferServiceImpl(transferRepository: TransferRepository,
     }
   }
 
-  //TODO: getAllTransactionsFor
-  override def getAllTransactionsFor(portfolioId: PortfolioId): ServiceCall[NotUsed, Seq[TransactionSummary]] = ???
+  override def getAllTransactionsFor(portfolioId: PortfolioId): ServiceCall[NotUsed, Seq[TransactionSummary]] = { _ =>
+    db.selectAll("SELECT transferId, status, dateTime, source, destination, amount FROM transfer_summary;")
+      .map(rows => rows
+        .map(row => TransactionSummary(
+          id = row.getString("transferId"),
+          status = row.getString("status"),
+          dateTime = row.getString("dateTime"),
+          source = row.getString("source"),
+          destination = row.getString("destination"),
+          amount = row.getString("amount")
+        ))
+        .filter(s => s.source == portfolioId || s.destination == portfolioId)
+      )
+  }
 
-  //TODO: transferStream
-  override def transferStream(): ServiceCall[NotUsed, Source[String, NotUsed]] = ???
+  override def transferStream(): ServiceCall[NotUsed, Source[String, NotUsed]] = { _ =>
+    val topic = pubSub.refFor(TopicId("transfer"))
+    Future.successful(topic.subscriber)
+  }
 
   private def transferRequestSource(tag: AggregateEventTag[TransferEvent], offset: Offset): Source[(TransferRequest, Offset), _] = {
     transferRepository.eventStream(tag, offset)
