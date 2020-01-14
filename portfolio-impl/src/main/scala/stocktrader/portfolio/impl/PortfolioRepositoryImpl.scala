@@ -11,11 +11,9 @@ import stocktrader.portfolio.api.{OpenPortfolioDetails, OrderPlaced}
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class PortfolioRepositoryImpl(brokerService: BrokerService, // FIXME: Used?
+class PortfolioRepositoryImpl(brokerService: BrokerService,
                               persistentEntities: PersistentEntityRegistry)(implicit ec: ExecutionContext)
   extends PortfolioRepository {
-
-  ??? // TODO: Register PortfolioEntity
 
   private final val log: Logger = LoggerFactory.getLogger(classOf[PortfolioRepositoryImpl])
 
@@ -27,7 +25,7 @@ class PortfolioRepositoryImpl(brokerService: BrokerService, // FIXME: Used?
     * @param request
     * @return The PortfolioModel ID assigned.
     */
-  // TODO: Implement retry logic. Theoretically the chance of a collision is astronomically low *given* everything else works.
+
   override def open(request: OpenPortfolioDetails): Future[PortfolioId] = {
     val portfolioId = PortfolioId.newId
     persistentEntities.refFor[PortfolioEntity](portfolioId)

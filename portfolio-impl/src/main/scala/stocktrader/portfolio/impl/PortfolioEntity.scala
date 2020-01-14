@@ -80,7 +80,6 @@ class PortfolioEntity extends PersistentEntity {
     }
 
   private val closed = {
-    ???
     Actions()
   }
 

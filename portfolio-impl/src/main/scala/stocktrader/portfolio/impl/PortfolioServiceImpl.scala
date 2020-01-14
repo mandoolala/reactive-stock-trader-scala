@@ -37,7 +37,7 @@ class PortfolioServiceImpl(portfolioRepository: PortfolioRepository,
     db.selectAll("SELECT portfolioId, name FROM portfolio_summary;").map { rows =>
       rows.map { row =>
         PortfolioSummary(
-          id = row.getString("portfolioId"),
+          portfolioId = row.getString("portfolioId"),
           name = row.getString("name")
         )
       }
