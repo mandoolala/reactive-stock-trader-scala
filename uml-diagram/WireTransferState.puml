@@ -1,6 +1,5 @@
 @startuml
 !pragma teoz true
-
 [*] --> TransferInitiated : TransferFunds
 note left of TransferInitiated
   Request funds from source account
@@ -17,5 +16,4 @@ note left of DeliveryFailed
 end note
 DeliveryFailed --> DeliveryFailed : RefundFailed
 DeliveryFailed --> RefundDelivered : RefundSucceeded
-
 @enduml

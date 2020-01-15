@@ -7,10 +7,13 @@ Patterns - Event Sourcing, CQRS
 Architecture - Interface, gateway, services  
 Integration - Point to Point, streaming, pub/sub  
 
-I learned and followed the tutorial below published on IBM Developer:
+##Learning Materials:
 
 **Reactive in practice: A complete guide to event-driven systems development in Java**
 - [Reactive in Practice on IBM Developer](https://developer.ibm.com/technologies/reactive-systems/)
+
+**Java Implementation of Reactive Stock Trader by RedElastic**
+- [Reactive stock trader in Java](https://github.com/RedElastic/reactive-stock-trader)  
 
 * Unit 1: [Introduction: event storming the 'stock trader' domain](https://developer.ibm.com/tutorials/reactive-in-practice-1/)
 * Unit 2: [Prototyping the UI and UI integration patterns](https://developer.ibm.com/tutorials/reactive-in-practice-2/)
@@ -24,13 +27,6 @@ I learned and followed the tutorial below published on IBM Developer:
 * Unit 10: [Streaming data](https://developer.ibm.com/tutorials/reactive-in-practice-10/)
 * Unit 11: [Deploying and monitoring reactive systems in the cloud](https://developer.ibm.com/tutorials/reactive-in-practice-11/)
 * Unit 12: [Recap and conclusion](https://developer.ibm.com/tutorials/reactive-in-practice-12/)  
-
-
-Reference:
-
-**Java Implementation of Reactive Stock Trader by RedElastic**
-- [Reactive stock trader in Java] (https://github.com/RedElastic/reactive-stock-trader)  
-
 
 
 # Installation
