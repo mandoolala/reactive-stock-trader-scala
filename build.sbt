@@ -3,9 +3,15 @@ organization in ThisBuild := "stocktrader"
 version in ThisBuild := "1.0"
 scalaVersion in ThisBuild := "2.13.1"
 
+lagomServiceLocatorPort in ThisBuild := 9108
+lagomServiceGatewayPort in ThisBuild := 9109
+lagomCassandraCleanOnStart in ThisBuild := true
+lagomKafkaCleanOnStart in ThisBuild := true
+
 val macwire = "com.softwaremill.macwire" %% "macros" % "2.3.3" % "provided"
 val playJsonDerivedCodecs = "org.julienrf" %% "play-json-derived-codecs" % "6.0.0"
 val scalaTest = "org.scalatest" %% "scalatest" % "3.0.8" % Test
+
 
 lazy val `reactive-stock-trader-scala` = (project in file("."))
   .aggregate(
@@ -43,6 +49,7 @@ lazy val `portfolio-impl` = (project in file("portfolio-impl"))
     )
   )
   .settings(lagomForkedTestSettings)
+  .settings(lagomServiceHttpPort := 9202)
   .dependsOn(`portfolio-api`, `broker-api`, `wiretransfer-api`)
 
 lazy val `broker-api` = (project in file("broker-api"))
@@ -65,6 +72,7 @@ lazy val `broker-impl` = (project in file("broker-impl"))
     )
   )
   .settings(lagomForkedTestSettings)
+  .settings(lagomServiceHttpPort := 9201)
   .dependsOn(`broker-api`, `portfolio-api`)
 
 lazy val `wiretransfer-api` = (project in file("wiretransfer-api"))
@@ -91,6 +99,7 @@ lazy val `wiretransfer-impl` = (project in file("wiretransfer-impl"))
     )
   )
   .settings(lagomForkedTestSettings)
+  .settings(lagomServiceHttpPort := 9200)
   .dependsOn(`wiretransfer-api`)
 
 lazy val `gateway` = (project in file("gateway"))
@@ -108,3 +117,4 @@ lazy val `gateway` = (project in file("gateway"))
       filters
     )
   )
+  .settings(lagomServiceHttpPort := 9100)
