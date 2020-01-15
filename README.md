@@ -7,7 +7,7 @@ Patterns - Event Sourcing, CQRS
 Architecture - Interface, gateway, services  
 Integration - Point to Point, streaming, pub/sub  
 
-##Learning Materials:
+## Learning Materials:
 
 **Reactive in practice: A complete guide to event-driven systems development in Java**
 - [Reactive in Practice on IBM Developer](https://developer.ibm.com/technologies/reactive-systems/)
